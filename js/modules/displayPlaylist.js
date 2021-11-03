@@ -1,3 +1,5 @@
+import {transformToMinSec} from "./utils.js";
+
 const displayPlaylist = (playList, playListDOM) => {
     playListDOM.innerHTML = playList.map(listItem => {
         return `<li class="playlist-item">
@@ -19,10 +21,4 @@ const displayPlaylist = (playList, playListDOM) => {
     });
 };
 
-const transformToMinSec = (time) => {
-    const minutes = Math.floor(time/60);
-    const seconds = Math.floor(time%60);
-    return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
-};
-
-export {displayPlaylist, transformToMinSec};
+export default displayPlaylist;

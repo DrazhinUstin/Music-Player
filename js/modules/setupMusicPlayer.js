@@ -1,6 +1,7 @@
-import {displayPlaylist, transformToMinSec} from "./displayPlaylist.js";
+import displayPlaylist from "./displayPlaylist.js";
+import {saveToStorage, transformToMinSec} from "./utils.js";
 
-const setupMusicPlayer = (playList) => {
+const setupMusicPlayer = (playList, settings) => {
     const sidebar = document.querySelector('.sidebar');
     const progressBar = document.querySelector('.song-progress-bar');
     const menuOpenBtn = document.getElementById('menu-open-btn');
@@ -13,7 +14,14 @@ const setupMusicPlayer = (playList) => {
     const audioTrackDOM = document.querySelector('.main-audio-track');
     const audioDurationDOM = document.querySelector('.song-duration');
     const audioCurrentTimeDOM = document.querySelector('.song-current-time');
-    const playListDOM = document.querySelector('.playlist');  
+    const playListDOM = document.querySelector('.playlist');
+    
+    const startPlayer = () => {
+        if (settings.audioStep) audioStep = settings.audioStep;
+        if (settings.repeatBtn) repeatBtn.textContent = settings.repeatBtn;
+        loadAudio(playList[audioStep]);
+        displayPlaylist(playList, playListDOM);
+    };
 
     const loadAudio = (song) => {
         const songTitleDOM = document.querySelector('.song-description h4');
@@ -37,8 +45,6 @@ const setupMusicPlayer = (playList) => {
             if (index === audioStep) listItem.classList.add('playing');
         });
     };
-
-    let audioStep = 0;
     
     playBtn.addEventListener('click', () => {
         switch (playBtnIcon.textContent) {
@@ -81,8 +87,13 @@ const setupMusicPlayer = (playList) => {
 
     audioTrackDOM.addEventListener('loadeddata', () => {
         const duration = audioTrackDOM.duration;
-        progressBar.firstElementChild.style.width = '0%';
-        audioCurrentTimeDOM.textContent = '0:00'; 
+        if (settings.currentTime && initConfig) {
+            audioTrackDOM.currentTime = settings.currentTime;
+            initConfig = false;
+        } else {
+            progressBar.firstElementChild.style.width = '0%';
+            audioCurrentTimeDOM.textContent = '0:00'; 
+        }
         audioDurationDOM.textContent = transformToMinSec(duration);
         configPlaylist();  
     });
@@ -134,8 +145,16 @@ const setupMusicPlayer = (playList) => {
     menuOpenBtn.addEventListener('click', () => sidebar.classList.add('show'));
     menuCloseBtn.addEventListener('click', () => sidebar.classList.remove('show'));
 
-    loadAudio(playList[audioStep]);
-    displayPlaylist(playList, playListDOM);
+    window.addEventListener('unload', () => {
+        settings.audioStep = audioStep;
+        settings.currentTime = audioTrackDOM.currentTime;
+        settings.repeatBtn = repeatBtn.textContent;
+        saveToStorage('settings', settings);
+    });
+
+    let audioStep = 0;
+    let initConfig = true;
+    startPlayer();
 };
 
 export default setupMusicPlayer;
