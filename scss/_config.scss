@@ -1,0 +1,30 @@
+$primary-clr: rgb(253, 156, 156);
+$primary-clr-2: lightcoral;
+$primary-clr-3: rgb(218, 106, 106);
+$black: rgb(24, 23, 23);
+$white: rgb(255, 255, 255);
+$white-2: rgb(233, 228, 228);
+$grey: #ccc;
+$radius: 1rem;
+$space: 0.1rem;
+$shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+$shadow-2: 0 0 5px lightsalmon;
+$transition: all 0.2s ease;
+$transition-2: all 0.4s ease;
+
+%grid-center {
+    display: grid;
+    place-items: center;
+}
+
+%flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+%flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

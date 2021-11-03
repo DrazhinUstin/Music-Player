@@ -1,0 +1,45 @@
+.sidebar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 75%;
+    height: 100%;
+    padding: 2rem 1rem;
+    border-radius: inherit;
+    background-color: inherit;
+    box-shadow: $shadow;
+    transform: translateX(100%);
+    transition: $transition;
+    &.show {
+        transform: translateX(0);
+    }
+}
+
+.playlist-item {
+    list-style-type: none;
+    padding: 1rem 0;
+    border-bottom: 1px solid $grey;
+    cursor: pointer;
+    &.playing {
+        color: $primary-clr-3;
+        pointer-events: none;
+    }
+    &:first-child {
+        border-top: 1px solid $grey;
+    }
+    & > div {
+        @extend %flex-between;
+    }
+    p {
+        margin-top: 0.5rem;
+        padding-left: 1.5rem;
+        font-size: 0.95rem;
+        font-style: italic;
+    }
+    .title {
+        column-gap: 0.1;
+        i {
+            font-size: 1.1rem;
+        }
+    }
+}

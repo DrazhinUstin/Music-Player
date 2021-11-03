@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <section class="wrapper">
+        <header class="header">
+            <i class="material-icons">expand_more</i>
+            <div class="title">
+                <i class="material-icons">equalizer</i>
+                <h3>Now playing</h3>
+            </div>
+            <i class="material-icons btn" id="menu-open-btn">queue_music</i>
+        </header>
+        <div class="image-wrapper">
+            <img src="images/music-2.jpg" alt="song_image">
+        </div>
+        <div class="song-description">
+            <h4></h4>
+            <p></p>
+            <audio src="#" class="main-audio-track"></audio>
+        </div>
+        <div class="song-progress-bar">
+            <div></div>
+        </div>
+        <div class="song-timer">
+            <span class="song-current-time"></span>
+            <span class="song-duration"></span>
+        </div>
+        <footer class="controls">
+            <i class="material-icons btn" id="repeat-btn">repeat</i>
+            <i class="material-icons btn" id="prev-btn">skip_previous</i>
+            <div id="play-btn" class="btn">
+                    <i class="material-icons">play_arrow</i>
+            </div>
+            <i class="material-icons btn" id="next-btn">skip_next</i>
+            <i class="material-icons btn" id="volume-btn">volume_up</i>
+        </footer>
+        <aside class="sidebar">
+            <header class="header">
+                <div class="title">
+                    <i class="material-icons">queue_music</i>
+                    <h3>Playlist</h3>
+                </div>
+                <i class="material-icons btn" id="menu-close-btn">cancel</i>
+            </header>
+            <ul class="playlist"></ul>
+        </aside>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/contentful@latest/dist/contentful.browser.min.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
