@@ -1,8 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
 @import 'config';
-@import 'progress-bar';
-@import 'controls';
-@import 'playlist';
 
 *, ::before, ::after {
     margin: 0;
@@ -14,14 +11,14 @@
 body {
     min-height: 100vh;
     @extend %grid-center;
-    background: linear-gradient($primary-clr 0%, $primary-clr-2 100%);
+    background: linear-gradient(var(--primary-clr) 0%, var(--primary-clr-2) 100%);
     color: $black;
     line-height: 1;
 }
 
 .material-icons {
     display: block;
-    background: linear-gradient($primary-clr 0%, $primary-clr-2 100%);
+    background: linear-gradient(var(--primary-clr) 0%, var(--primary-clr-2) 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -53,12 +50,12 @@ body {
     @extend %flex-center;
     column-gap: 0.2rem;
     h3 {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         letter-spacing: $space;
         text-transform: capitalize;
     }
     i {
-        font-size: 1.5rem
+        font-size: 1.5rem;
     }
 }
 
@@ -91,3 +88,27 @@ body {
     @extend %flex-between;
     margin: 0.5rem 0 2rem 0;
 }
+
+@media screen and (max-width: 425px) {
+    .wrapper {
+        padding: 2rem 1rem;
+    }
+    .image-wrapper {
+        height: 15rem;
+    }    
+}
+
+@media screen and (max-width: 350px) {
+    .wrapper {
+        width: 95vw;
+    }
+    .image-wrapper {
+        height: 12rem;
+    }    
+}
+
+@import 'preloader';
+@import 'play-animation';
+@import 'progress-bar';
+@import 'controls';
+@import 'playlist';

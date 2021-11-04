@@ -1,6 +1,3 @@
-$primary-clr: rgb(253, 156, 156);
-$primary-clr-2: lightcoral;
-$primary-clr-3: rgb(218, 106, 106);
 $black: rgb(24, 23, 23);
 $white: rgb(255, 255, 255);
 $white-2: rgb(233, 228, 228);
@@ -8,9 +5,39 @@ $grey: #ccc;
 $radius: 1rem;
 $space: 0.1rem;
 $shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-$shadow-2: 0 0 5px lightsalmon;
+$shadow-2: 0 0 5px var(--primary-clr-2);
 $transition: all 0.2s ease;
 $transition-2: all 0.4s ease;
+
+:root {
+    --primary-clr: rgb(255, 255, 255);
+    --primary-clr-2: rgb(255, 255, 255);
+    --primary-clr-3: rgb(255, 255, 255);
+}
+
+.theme-1 {
+    --primary-clr: rgb(65, 162, 211);
+    --primary-clr-2: rgb(37, 114, 192);
+    --primary-clr-3: rgb(6, 90, 173); 
+}
+
+.theme-2 {
+    --primary-clr: rgb(136, 83, 236);
+    --primary-clr-2: rgb(119, 64, 221);
+    --primary-clr-3: rgb(98, 43, 201); 
+}
+
+.theme-3 {
+    --primary-clr: rgb(251, 151, 84);
+    --primary-clr-2: rgb(231, 123, 52);
+    --primary-clr-3: rgb(216, 101, 25); 
+}
+
+.theme-4 {
+    --primary-clr: rgb(248, 123, 123);
+    --primary-clr-2: rgb(221, 90, 90);
+    --primary-clr-3: rgb(204, 47, 47); 
+}
 
 %grid-center {
     display: grid;

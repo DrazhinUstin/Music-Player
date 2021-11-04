@@ -1,0 +1,32 @@
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    @extend %grid-center;
+    background: linear-gradient(var(--primary-clr) 0%, var(--primary-clr-2) 100%);
+    transition: $transition-2;
+    z-index: 99;
+    span {
+        width: 5rem;
+        height: 5rem;
+        border: 0.5rem solid $white;
+        border-right-color: transparent;
+        border-radius: 50%;
+        animation: loading 0.5s linear 0s infinite;
+    }
+    &.hide {
+        visibility: hidden;
+        opacity: 0;
+    }
+}
+
+@keyframes loading {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

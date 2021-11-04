@@ -12,4 +12,9 @@ const transformToMinSec = (time) => {
     return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
 };
 
-export {saveToStorage, getFromStorage, transformToMinSec};
+const hidePreloader = () => {
+    const preloader = document.querySelector('.preloader');
+    setTimeout(() => preloader.classList.add('hide'), 250);
+};
+
+export {saveToStorage, getFromStorage, transformToMinSec, hidePreloader};

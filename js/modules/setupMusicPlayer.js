@@ -1,5 +1,5 @@
-import displayPlaylist from "./displayPlaylist.js";
 import {saveToStorage, transformToMinSec} from "./utils.js";
+import displayPlaylist from "./displayPlaylist.js";
 
 const setupMusicPlayer = (playList, settings) => {
     const sidebar = document.querySelector('.sidebar');
@@ -15,6 +15,7 @@ const setupMusicPlayer = (playList, settings) => {
     const audioDurationDOM = document.querySelector('.song-duration');
     const audioCurrentTimeDOM = document.querySelector('.song-current-time');
     const playListDOM = document.querySelector('.playlist');
+    const playAnimationDOM = document.querySelector('.play-animation');
     
     const startPlayer = () => {
         if (settings.audioStep) audioStep = settings.audioStep;
@@ -39,6 +40,13 @@ const setupMusicPlayer = (playList, settings) => {
         if (audioStep < 0) audioStep = playList.length - 1;
     };
 
+    const getRandomIndex = () => {
+        let randomIndex;
+        do randomIndex = Math.floor(Math.random() * playList.length);
+        while (randomIndex === audioStep);
+        return randomIndex;
+    };
+
     const configPlaylist = () => {
         [...playListDOM.children].forEach((listItem, index) => {
             listItem.classList.remove('playing');
@@ -50,10 +58,12 @@ const setupMusicPlayer = (playList, settings) => {
         switch (playBtnIcon.textContent) {
             case 'play_arrow':
                 playBtnIcon.textContent = 'pause';
+                playAnimationDOM.classList.add('play');
                 audioTrackDOM.play();      
                 break;
             case 'pause':
                 playBtnIcon.textContent = 'play_arrow';
+                playAnimationDOM.classList.remove('play');
                 audioTrackDOM.pause();      
                 break;    
         }
@@ -74,13 +84,13 @@ const setupMusicPlayer = (playList, settings) => {
     });
     
     nextBtn.addEventListener('click', () => {
-        audioStep++;
+        repeatBtn.textContent === 'shuffle' ? audioStep = getRandomIndex() : audioStep++;
         checkAudioStep();
         loadAudio(playList[audioStep]);
     });
     
     prevBtn.addEventListener('click', () => {
-        audioStep--;
+        repeatBtn.textContent === 'shuffle' ? audioStep = getRandomIndex() : audioStep--;
         checkAudioStep();
         loadAudio(playList[audioStep]);
     });
@@ -116,10 +126,7 @@ const setupMusicPlayer = (playList, settings) => {
                 audioTrackDOM.play();
                 break;
             case 'shuffle':
-                let randomIndex;
-                do randomIndex = Math.floor(Math.random() * playList.length);
-                while (randomIndex === audioStep);
-                audioStep = randomIndex;
+                audioStep = getRandomIndex();
                 loadAudio(playList[audioStep]);
                 break;         
         }

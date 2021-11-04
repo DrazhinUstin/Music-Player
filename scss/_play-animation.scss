@@ -1,0 +1,32 @@
+.play-animation {
+    display: flex;
+    column-gap: 0.25rem;
+    span {
+        width: 0.25rem;
+        height: 1.5rem;
+        background: linear-gradient(var(--primary-clr) 0%, var(--primary-clr-2) 100%);
+        animation: unset;
+    }
+    &.play {
+        span {
+            transform: scale(0);
+            animation: playing 0.5s ease-in-out 0s infinite alternate;
+        }
+    }
+}
+
+@for $i from 2 to 11 {
+    .play-animation span:nth-child(#{$i}) {
+        $step: $i/10 - 0.1;
+        animation-delay: #{$step}s;
+    }
+}
+
+@keyframes playing {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
