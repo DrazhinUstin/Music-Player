@@ -35,6 +35,10 @@
     }
 }
 
+#volume-btn {
+    position: relative;
+}
+
 @media screen and (max-width: 425px) {
     .controls {
         i:nth-child(2) {

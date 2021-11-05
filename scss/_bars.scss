@@ -9,8 +9,7 @@
         height: inherit;
         border-radius: inherit;
         background: linear-gradient(var(--primary-clr) 0%, var(--primary-clr-2) 100%);
-        &::after {
-            content: '';
+        span {
             position: absolute;
             top: -50%;
             right: -0.5rem;
@@ -22,7 +21,32 @@
             transition: $transition;
         }
     }
-    &:hover div::after {
+    &:hover span {
         opacity: 1;
+    }
+}
+
+.volume-bar {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    width: 2rem;
+    height: 0;
+    border-radius: $radius;
+    overflow: hidden;
+    background-color: $grey-2;
+    box-shadow: $shadow;
+    transition: $transition;
+    &.show {
+        height: 10rem;
+    }
+    div {
+        position: absolute;
+        bottom: 0;
+        width: inherit;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(var(--primary-clr) 0%, var(--primary-clr-2) 100%);
     }
 }

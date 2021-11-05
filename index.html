@@ -24,8 +24,6 @@
                 <span></span>
                 <span></span>
                 <span></span>
-                <span></span>
-                <span></span>
             </div>
             <i class="material-icons btn" id="menu-open-btn">queue_music</i>
         </header>
@@ -38,7 +36,9 @@
             <audio src="#" class="main-audio-track"></audio>
         </div>
         <div class="song-progress-bar">
-            <div></div>
+            <div>
+                <span class="thumb"></span>
+            </div>
         </div>
         <div class="song-timer">
             <span class="song-current-time"></span>
@@ -51,7 +51,14 @@
                     <i class="material-icons">play_arrow</i>
             </div>
             <i class="material-icons btn" id="next-btn">skip_next</i>
-            <i class="material-icons btn" id="volume-btn">volume_up</i>
+            <div id="volume-btn" class="btn">
+                <i class="material-icons">volume_up</i>
+                <div class="volume-bar">
+                    <div>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
         </footer>
         <aside class="sidebar">
             <header class="header">

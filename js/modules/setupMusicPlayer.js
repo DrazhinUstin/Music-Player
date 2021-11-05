@@ -2,21 +2,35 @@ import {saveToStorage, transformToMinSec} from "./utils.js";
 import displayPlaylist from "./displayPlaylist.js";
 
 const setupMusicPlayer = (playList, settings) => {
-    const sidebar = document.querySelector('.sidebar');
-    const progressBar = document.querySelector('.song-progress-bar');
-    const menuOpenBtn = document.getElementById('menu-open-btn');
-    const menuCloseBtn = document.getElementById('menu-close-btn');
+
+    //////////////////////////////////// DOM ELEMENTS ////////////////////////////////////
+
+    // control buttons
     const playBtn = document.getElementById('play-btn');
     const playBtnIcon = playBtn.firstElementChild;
     const nextBtn = document.getElementById('next-btn');
     const prevBtn = document.getElementById('prev-btn');
     const repeatBtn = document.getElementById('repeat-btn');
+    const volumeBtn = document.querySelector('#volume-btn i');
+    // audiotrack
     const audioTrackDOM = document.querySelector('.main-audio-track');
     const audioDurationDOM = document.querySelector('.song-duration');
     const audioCurrentTimeDOM = document.querySelector('.song-current-time');
+    // progress bar
+    const progressBar = document.querySelector('.song-progress-bar');
+    const thumb = progressBar.querySelector('.thumb');
+    // volume bar
+    const volumeBar = document.querySelector('.volume-bar');
+    // sidebar
+    const menuOpenBtn = document.getElementById('menu-open-btn');
+    const menuCloseBtn = document.getElementById('menu-close-btn');
+    const sidebar = document.querySelector('.sidebar');
     const playListDOM = document.querySelector('.playlist');
+    // header animation
     const playAnimationDOM = document.querySelector('.play-animation');
-    
+
+    //////////////////////////////////// ARROW FUNCTIONS ////////////////////////////////////
+
     const startPlayer = () => {
         if (settings.audioStep) audioStep = settings.audioStep;
         if (settings.repeatBtn) repeatBtn.textContent = settings.repeatBtn;
@@ -53,6 +67,8 @@ const setupMusicPlayer = (playList, settings) => {
             if (index === audioStep) listItem.classList.add('playing');
         });
     };
+
+    //////////////////////////////////// CONTROL BUTTONS EVENTS ////////////////////////////////////
     
     playBtn.addEventListener('click', () => {
         switch (playBtnIcon.textContent) {
@@ -95,6 +111,12 @@ const setupMusicPlayer = (playList, settings) => {
         loadAudio(playList[audioStep]);
     });
 
+    volumeBtn.addEventListener('click', () => {
+        volumeBar.classList.toggle('show');
+    });
+
+    //////////////////////////////////// AUDIOTRACK EVENTS ////////////////////////////////////
+
     audioTrackDOM.addEventListener('loadeddata', () => {
         const duration = audioTrackDOM.duration;
         if (settings.currentTime && initConfig) {
@@ -109,6 +131,7 @@ const setupMusicPlayer = (playList, settings) => {
     });
 
     audioTrackDOM.addEventListener('timeupdate', () => {
+        if (isDragging) return;
         const currentTime = audioTrackDOM.currentTime;
         const duration = audioTrackDOM.duration;
         progressBar.firstElementChild.style.width = `${currentTime/duration * 100}%`;
@@ -132,6 +155,14 @@ const setupMusicPlayer = (playList, settings) => {
         }
     });
 
+    audioTrackDOM.addEventListener('volumechange', () => {
+        const volume = audioTrackDOM.volume;
+        if (volume === 0) volumeBtn.textContent = 'volume_off';
+        else volumeBtn.textContent = 'volume_up';
+    });
+
+    //////////////////////////////////// PROGRESS BAR EVENTS ////////////////////////////////////
+
     progressBar.addEventListener('click', event => {
         const fullWidth = progressBar.offsetWidth;
         const x1 = progressBar.getBoundingClientRect().left;
@@ -139,6 +170,74 @@ const setupMusicPlayer = (playList, settings) => {
         const segmentWidth = x2 - x1;
         audioTrackDOM.currentTime = (segmentWidth/fullWidth) * audioTrackDOM.duration;
     });
+
+    thumb.addEventListener('pointerdown', event => {
+        event.preventDefault();
+        const fullWidth = progressBar.offsetWidth;
+        const x1 = progressBar.getBoundingClientRect().left;
+        let segmentWidth;
+        
+        const getWidth = () => (segmentWidth/fullWidth) * 100;
+        const getCurrentTime = () => (segmentWidth/fullWidth) * audioTrackDOM.duration;
+        
+        const pointerMove = (event) =>  {
+            isDragging = true;
+            const x2 = event.clientX;
+            segmentWidth = x2 - x1;
+            if (segmentWidth < 0) segmentWidth = 0;
+            if (segmentWidth > fullWidth) segmentWidth = fullWidth;
+            progressBar.firstElementChild.style.width = `${getWidth()}%`;
+            audioCurrentTimeDOM.textContent = transformToMinSec(getCurrentTime());
+        };
+
+        const pointerUp = () => {
+            isDragging = false;
+            audioTrackDOM.currentTime = getCurrentTime();
+            document.removeEventListener('pointermove', pointerMove);
+            document.removeEventListener('pointerup', pointerUp);
+        };
+
+        document.addEventListener('pointermove', pointerMove);
+        document.addEventListener('pointerup', pointerUp);
+    });
+
+    //////////////////////////////////// VOLUME BAR EVENTS ////////////////////////////////////
+
+    volumeBar.addEventListener('pointerdown', event => {
+        event.preventDefault();
+        const fullHeight = volumeBar.offsetHeight;
+        const y1 = volumeBar.getBoundingClientRect().bottom;
+        let y2 = event.clientY;
+        let segmentHeight = y1 - y2;
+
+        const getHeight = () => segmentHeight/fullHeight * 100;
+        const getVolume = () => segmentHeight/fullHeight;
+
+        volumeBar.firstElementChild.style.height = `${getHeight()}%`;
+        audioTrackDOM.volume = getVolume();
+
+        const pointerMove = (event) => {
+            y2 = event.clientY;
+            segmentHeight = y1 - y2;
+            if (segmentHeight < 0) segmentHeight = 0;
+            if (segmentHeight > fullHeight) segmentHeight = fullHeight;
+            volumeBar.firstElementChild.style.height = `${getHeight()}%`;
+            audioTrackDOM.volume = getVolume();
+        };
+
+        const pointerUp = () => {
+            document.removeEventListener('pointermove', pointerMove);
+            document.removeEventListener('pointerup', pointerUp);
+        };
+
+        document.addEventListener('pointermove', pointerMove);
+        document.addEventListener('pointerup', pointerUp);
+    });
+
+    //////////////////////////////////// SIDEBAR EVENTS ////////////////////////////////////
+
+    menuOpenBtn.addEventListener('click', () => sidebar.classList.add('show'));
+    menuCloseBtn.addEventListener('click', () => sidebar.classList.remove('show'));
 
     playListDOM.addEventListener('click', (event) => {
         const listItem = event.target.closest('.playlist-item');
@@ -149,8 +248,7 @@ const setupMusicPlayer = (playList, settings) => {
         sidebar.classList.remove('show');
     });
 
-    menuOpenBtn.addEventListener('click', () => sidebar.classList.add('show'));
-    menuCloseBtn.addEventListener('click', () => sidebar.classList.remove('show'));
+    //////////////////////////////////// WINDOW UNLOAD EVENT ////////////////////////////////////
 
     window.addEventListener('unload', () => {
         settings.audioStep = audioStep;
@@ -159,8 +257,11 @@ const setupMusicPlayer = (playList, settings) => {
         saveToStorage('settings', settings);
     });
 
+    //////////////////////////////////// INITIAL SETUP ////////////////////////////////////
+
     let audioStep = 0;
     let initConfig = true;
+    let isDragging = false;
     startPlayer();
 };
 

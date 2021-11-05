@@ -4,6 +4,7 @@
     span {
         width: 0.25rem;
         height: 1.5rem;
+        border-radius: $radius;
         background: linear-gradient(var(--primary-clr) 0%, var(--primary-clr-2) 100%);
         animation: unset;
     }
@@ -15,7 +16,7 @@
     }
 }
 
-@for $i from 2 to 11 {
+@for $i from 2 to 9 {
     .play-animation span:nth-child(#{$i}) {
         $step: $i/10 - 0.1;
         animation-delay: #{$step}s;
