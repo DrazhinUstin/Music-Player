@@ -19,6 +19,7 @@
             background: inherit;
             opacity: 0;
             transition: $transition;
+            touch-action: none;
         }
     }
     &:hover span {
@@ -38,6 +39,7 @@
     background-color: $grey-2;
     box-shadow: $shadow;
     transition: $transition;
+    touch-action: none;
     &.show {
         height: 10rem;
     }

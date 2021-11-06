@@ -5,10 +5,10 @@ const displayPlaylist = (playList, playListDOM) => {
         return `<li class="playlist-item">
                     <div>
                         <div class="title">
-                            <i class="material-icons">audiotrack</i>
+                            <i class="material-icons-round">audiotrack</i>
                             <h4>${listItem.title}</h4>
                         </div>
-                        <span>3:40</span>
+                        <span></span>
                         <audio src="${listItem.audioUrl}" preload="metadata"></audio>
                     </div>
                     <p>${listItem.artist}</p>

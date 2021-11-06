@@ -11,7 +11,11 @@ const fetchData = async () => {
             const {title, artist, image: {fields: {file: {url: imageUrl}}}, audio: {fields: {file: {url: audioUrl}}}} = item.fields;
             return {title, artist, imageUrl, audioUrl};
         });
-        return playlist;    
+        return playlist.sort((a, b) => {
+            if (a.title > b.title) return 1;
+            else if (a.title < b.title) return -1;
+            else return 0;
+        });    
     } catch (error) {
         console.log(error);
     }

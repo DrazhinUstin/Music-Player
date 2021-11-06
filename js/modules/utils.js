@@ -14,7 +14,10 @@ const transformToMinSec = (time) => {
 
 const hidePreloader = () => {
     const preloader = document.querySelector('.preloader');
-    setTimeout(() => preloader.classList.add('hide'), 250);
+    setTimeout(() => {
+        preloader.classList.add('hide');
+        preloader.addEventListener('transitionend', () => preloader.remove());
+    }, 500);
 };
 
 export {saveToStorage, getFromStorage, transformToMinSec, hidePreloader};

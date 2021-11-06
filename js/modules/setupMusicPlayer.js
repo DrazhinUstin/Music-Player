@@ -25,7 +25,7 @@ const setupMusicPlayer = (playList, settings) => {
     const menuOpenBtn = document.getElementById('menu-open-btn');
     const menuCloseBtn = document.getElementById('menu-close-btn');
     const sidebar = document.querySelector('.sidebar');
-    const playListDOM = document.querySelector('.playlist');
+    const playListDOM = sidebar.querySelector('.playlist');
     // header animation
     const playAnimationDOM = document.querySelector('.play-animation');
 
@@ -207,22 +207,18 @@ const setupMusicPlayer = (playList, settings) => {
         event.preventDefault();
         const fullHeight = volumeBar.offsetHeight;
         const y1 = volumeBar.getBoundingClientRect().bottom;
-        let y2 = event.clientY;
-        let segmentHeight = y1 - y2;
 
-        const getHeight = () => segmentHeight/fullHeight * 100;
-        const getVolume = () => segmentHeight/fullHeight;
-
-        volumeBar.firstElementChild.style.height = `${getHeight()}%`;
-        audioTrackDOM.volume = getVolume();
-
-        const pointerMove = (event) => {
-            y2 = event.clientY;
-            segmentHeight = y1 - y2;
+        const setVolume = (event) => {
+            const y2 = event.clientY;
+            let segmentHeight = y1 - y2;
             if (segmentHeight < 0) segmentHeight = 0;
             if (segmentHeight > fullHeight) segmentHeight = fullHeight;
-            volumeBar.firstElementChild.style.height = `${getHeight()}%`;
-            audioTrackDOM.volume = getVolume();
+            volumeBar.firstElementChild.style.height = `${segmentHeight/fullHeight * 100}%`;
+            audioTrackDOM.volume = segmentHeight/fullHeight;
+        }
+
+        const pointerMove = (event) => {
+            setVolume(event);
         };
 
         const pointerUp = () => {
@@ -230,6 +226,7 @@ const setupMusicPlayer = (playList, settings) => {
             document.removeEventListener('pointerup', pointerUp);
         };
 
+        setVolume(event);
         document.addEventListener('pointermove', pointerMove);
         document.addEventListener('pointerup', pointerUp);
     });
@@ -239,7 +236,7 @@ const setupMusicPlayer = (playList, settings) => {
     menuOpenBtn.addEventListener('click', () => sidebar.classList.add('show'));
     menuCloseBtn.addEventListener('click', () => sidebar.classList.remove('show'));
 
-    playListDOM.addEventListener('click', (event) => {
+    playListDOM.addEventListener('click', event => {
         const listItem = event.target.closest('.playlist-item');
         if (!listItem) return;
         const index = [...playListDOM.children].indexOf(listItem);

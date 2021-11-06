@@ -27,9 +27,7 @@
     }
     i {
         position: absolute;
-        background: inherit;
-        background-clip: text;
-        -webkit-background-clip: text;
+        @include background-text($white, $white-2);
         text-align: center;
         line-height: 2.5rem;
     }

@@ -13,6 +13,11 @@
     font-family: 'Arimo', sans-serif;
 }
 
+*::selection {
+    background-color: $black;
+    color: $white;
+}
+
 body {
     min-height: 100vh;
     @extend %grid-center;
@@ -21,12 +26,9 @@ body {
     line-height: 1;
 }
 
-.material-icons {
+.material-icons-round {
     display: block;
-    background: linear-gradient(var(--primary-clr) 0%, var(--primary-clr-2) 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    @include background-text(var(--primary-clr), var(--primary-clr-2));
     font-size: 1.8rem; 
 }
 
@@ -60,7 +62,7 @@ body {
         text-transform: capitalize;
     }
     i {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
     }
 }
 
@@ -99,7 +101,7 @@ body {
         padding: 2rem 1rem;
     }
     .image-wrapper {
-        height: 15rem;
+        height: 16rem;
     }    
 }
 

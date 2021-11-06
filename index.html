@@ -5,16 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Player</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <div class="preloader">
+        <h2>Your music</h2>
         <span></span>
     </div>
     <section class="wrapper">
         <header class="header">
-            <i class="material-icons btn" id="theme-switch-btn">format_color_fill</i>
+            <i class="material-icons-round btn" id="theme-switch-btn">format_color_fill</i>
             <div class="play-animation">
                 <span></span>
                 <span></span>
@@ -25,7 +26,7 @@
                 <span></span>
                 <span></span>
             </div>
-            <i class="material-icons btn" id="menu-open-btn">queue_music</i>
+            <i class="material-icons-round btn" id="menu-open-btn">queue_music</i>
         </header>
         <div class="image-wrapper">
             <img src="#" alt="song_image">
@@ -45,28 +46,26 @@
             <span class="song-duration"></span>
         </div>
         <footer class="controls">
-            <i class="material-icons btn" id="repeat-btn">repeat</i>
-            <i class="material-icons btn" id="prev-btn">skip_previous</i>
+            <i class="material-icons-round btn" id="repeat-btn">repeat</i>
+            <i class="material-icons-round btn" id="prev-btn">skip_previous</i>
             <div id="play-btn" class="btn">
-                    <i class="material-icons">play_arrow</i>
+                    <i class="material-icons-round">play_arrow</i>
             </div>
-            <i class="material-icons btn" id="next-btn">skip_next</i>
+            <i class="material-icons-round btn" id="next-btn">skip_next</i>
             <div id="volume-btn" class="btn">
-                <i class="material-icons">volume_up</i>
+                <i class="material-icons-round">volume_up</i>
                 <div class="volume-bar">
-                    <div>
-                        <span></span>
-                    </div>
+                    <div></div>
                 </div>
             </div>
         </footer>
         <aside class="sidebar">
             <header class="header">
                 <div class="title">
-                    <i class="material-icons">queue_music</i>
+                    <i class="material-icons-round">queue_music</i>
                     <h3>Playlist</h3>
                 </div>
-                <i class="material-icons btn" id="menu-close-btn">cancel</i>
+                <i class="material-icons-round btn" id="menu-close-btn">cancel</i>
             </header>
             <ul class="playlist"></ul>
         </aside>

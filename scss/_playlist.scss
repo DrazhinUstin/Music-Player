@@ -6,12 +6,18 @@
     height: 100%;
     padding: 2rem 1rem;
     border-radius: inherit;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     background-color: inherit;
     box-shadow: $shadow;
     transform: translateX(100%);
     transition: $transition;
     &.show {
         transform: translateX(0);
+    }
+    &::-webkit-scrollbar {
+        display: none;
     }
 }
 
@@ -21,7 +27,7 @@
     border-bottom: 1px solid $grey;
     cursor: pointer;
     &.playing {
-        color: var(--primary-clr-3);
+        @include background-text(var(--primary-clr), var(--primary-clr-2));
         pointer-events: none;
     }
     &:first-child {
@@ -38,7 +44,7 @@
     }
     .title {
         i {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
     }
 }
