@@ -1,4 +1,4 @@
-import {saveToStorage, transformToMinSec} from "./utils.js";
+import {saveToStorage, transformToMinSec, isEmptyObj} from "./utils.js";
 import displayPlaylist from "./displayPlaylist.js";
 
 const setupMusicPlayer = (playList, settings) => {
@@ -32,8 +32,8 @@ const setupMusicPlayer = (playList, settings) => {
     //////////////////////////////////// ARROW FUNCTIONS ////////////////////////////////////
 
     const startPlayer = () => {
-        if (settings.audioStep) audioStep = settings.audioStep;
-        if (settings.repeatBtn) {
+        if (!isEmptyObj(settings)) {
+            audioStep = settings.audioStep;
             repeatBtn.textContent = settings.repeatBtn;
             repeatBtn.title = settings.repeatBtnTitle;
         }
@@ -125,9 +125,9 @@ const setupMusicPlayer = (playList, settings) => {
 
     audioTrackDOM.addEventListener('loadeddata', () => {
         const duration = audioTrackDOM.duration;
-        if (initConfig) {
-            if (settings.currentTime) audioTrackDOM.currentTime = settings.currentTime;
-            if (settings.volume || settings.volume === 0) audioTrackDOM.volume = settings.volume;
+        if (initConfig && !isEmptyObj(settings)) {
+            audioTrackDOM.currentTime = settings.currentTime;
+            audioTrackDOM.volume = settings.volume;
             initConfig = false;
         } else {
             progressBar.firstElementChild.style.width = '0%';

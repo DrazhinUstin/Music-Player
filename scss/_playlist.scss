@@ -28,6 +28,7 @@
     cursor: pointer;
     &.playing {
         @include background-text(var(--primary-clr), var(--primary-clr-2));
+        user-select: none;
         pointer-events: none;
     }
     &:first-child {

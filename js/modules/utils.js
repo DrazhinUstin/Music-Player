@@ -20,4 +20,6 @@ const hidePreloader = () => {
     }, 500);
 };
 
-export {saveToStorage, getFromStorage, transformToMinSec, hidePreloader};
+const isEmptyObj = (obj) => Object.keys(obj).length === 0 && obj.constructor === Object;
+
+export {saveToStorage, getFromStorage, transformToMinSec, hidePreloader, isEmptyObj};
