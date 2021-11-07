@@ -33,7 +33,10 @@ const setupMusicPlayer = (playList, settings) => {
 
     const startPlayer = () => {
         if (settings.audioStep) audioStep = settings.audioStep;
-        if (settings.repeatBtn) repeatBtn.textContent = settings.repeatBtn;
+        if (settings.repeatBtn) {
+            repeatBtn.textContent = settings.repeatBtn;
+            repeatBtn.title = settings.repeatBtnTitle;
+        }
         loadAudio(playList[audioStep]);
         displayPlaylist(playList, playListDOM);
     };
@@ -89,12 +92,15 @@ const setupMusicPlayer = (playList, settings) => {
         switch (repeatBtn.textContent) {
             case 'repeat':
                 repeatBtn.textContent = 'repeat_one';
+                repeatBtn.title = 'Song looped';
                 break;
             case 'repeat_one':
                 repeatBtn.textContent = 'shuffle';
+                repeatBtn.title = 'Playback shuffled';
                 break;
             case 'shuffle':
                 repeatBtn.textContent = 'repeat';
+                repeatBtn.title = 'Playlist looped';
                 break;         
         }
     });
@@ -119,8 +125,9 @@ const setupMusicPlayer = (playList, settings) => {
 
     audioTrackDOM.addEventListener('loadeddata', () => {
         const duration = audioTrackDOM.duration;
-        if (settings.currentTime && initConfig) {
-            audioTrackDOM.currentTime = settings.currentTime;
+        if (initConfig) {
+            if (settings.currentTime) audioTrackDOM.currentTime = settings.currentTime;
+            if (settings.volume || settings.volume === 0) audioTrackDOM.volume = settings.volume;
             initConfig = false;
         } else {
             progressBar.firstElementChild.style.width = '0%';
@@ -157,6 +164,7 @@ const setupMusicPlayer = (playList, settings) => {
 
     audioTrackDOM.addEventListener('volumechange', () => {
         const volume = audioTrackDOM.volume;
+        volumeBar.firstElementChild.style.height = `${volume/1 * 100}%`;
         if (volume === 0) volumeBtn.textContent = 'volume_off';
         else volumeBtn.textContent = 'volume_up';
     });
@@ -191,8 +199,8 @@ const setupMusicPlayer = (playList, settings) => {
         };
 
         const pointerUp = () => {
-            isDragging = false;
             audioTrackDOM.currentTime = getCurrentTime();
+            isDragging = false;
             document.removeEventListener('pointermove', pointerMove);
             document.removeEventListener('pointerup', pointerUp);
         };
@@ -213,7 +221,6 @@ const setupMusicPlayer = (playList, settings) => {
             let segmentHeight = y1 - y2;
             if (segmentHeight < 0) segmentHeight = 0;
             if (segmentHeight > fullHeight) segmentHeight = fullHeight;
-            volumeBar.firstElementChild.style.height = `${segmentHeight/fullHeight * 100}%`;
             audioTrackDOM.volume = segmentHeight/fullHeight;
         }
 
@@ -251,6 +258,8 @@ const setupMusicPlayer = (playList, settings) => {
         settings.audioStep = audioStep;
         settings.currentTime = audioTrackDOM.currentTime;
         settings.repeatBtn = repeatBtn.textContent;
+        settings.repeatBtnTitle = repeatBtn.title;
+        settings.volume = audioTrackDOM.volume;
         saveToStorage('settings', settings);
     });
 
